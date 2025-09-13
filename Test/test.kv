@@ -1,40 +1,29 @@
 MainWidget:
 
 <MainWidget>:
-    AnchorLayout:
-        canvas:
-            Color:
-                rgb: 1, 1, 1
-            Rectangle:
-                size: root.width * .15, root.height
-        size_hint: None, 1
-        width: root.width * .15
-        HamburgerMenuToggleButton:
-            size_hint: None, None
-            width: "90dp"
-            height: "90dp"
+    LeftSideLayout:
+        id: left_layout
         NavigationMenu:
-            canvas:
-                Color:
-                    rgb: 1, 1, 0
-                Line:
-                    points: self.width, 0, self.width, root.height
-                    width: 2
-            anchor_x: "center"
-            anchor_y: "center"
-            size_hint: None, None
-            width: root.width * .15
-            height: root.height
-            orientation: "vertical"
+            id: nav_menu
             MainMenuLink:
-                color: 0, 0, 0
-                font_size: "15dp"
+                id: main_menu_link
             MySchedulesLink:
-                color: 0, 0, 0
-                font_size: "15dp"
+                id: my_sched_link
             MyActivitiesLink:
-                color: 0, 0, 0
-                font_size: "15dp"
-    RelativeLayout:
-        size_hint: None, 1
-        width: root.width * .8
+                id: my_activ_link
+            HamburgerMenuToggleButton:
+                id: menu_toggle_btn
+                canvas:
+                    Color:
+                        rgb: 128 / 255, 128 / 255, 128 / 255
+                    Line:
+                        points: self.x, root.height * .85, self.x + 100, root.height * .85
+                        width: 2
+                    Line:
+                        points: self.x, root.height * .825, self.x + 100, root.height * .825
+                        width: 2
+                    Line:
+                        points: self.x, root.height * .8, self.x + 100, root.height * .8
+                        width: 2
+                    Color:
+                        rgb: 1, 1, 1
