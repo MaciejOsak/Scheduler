@@ -2,28 +2,8 @@ MainWidget:
 
 <MainWidget>:
     LeftSideLayout:
-        id: left_layout
         NavigationMenu:
-            id: nav_menu
             MainMenuLink:
-                id: main_menu_link
             MySchedulesLink:
-                id: my_sched_link
             MyActivitiesLink:
-                id: my_activ_link
-            HamburgerMenuToggleButton:
-                id: menu_toggle_btn
-                canvas:
-                    Color:
-                        rgb: 128 / 255, 128 / 255, 128 / 255
-                    Line:
-                        points: self.x, root.height * .85, self.x + 100, root.height * .85
-                        width: 2
-                    Line:
-                        points: self.x, root.height * .825, self.x + 100, root.height * .825
-                        width: 2
-                    Line:
-                        points: self.x, root.height * .8, self.x + 100, root.height * .8
-                        width: 2
-                    Color:
-                        rgb: 1, 1, 1
+        HamburgerMenuToggleButton:
