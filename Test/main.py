@@ -48,24 +48,25 @@ class LeftSideLayout(BoxLayout):
 
         global MINIMUM_NAVIGATION_MENU_WIDTH
 
-        if MINIMUM_NAVIGATION_MENU_WIDTH > self.width:
-            Window.unbind(size=self.on_size)
-            Window.bind(size=self.size_binder)
-
         self.spirit_width = Window.width * .15
         self.spirit_height = Window.height
+
+        if MINIMUM_NAVIGATION_MENU_WIDTH > self.spirit_width:
+            Window.unbind(size=self.on_size)
+            Window.bind(size=self.size_binder)
 
         with self.canvas:
 
             Color(1, 1, 1, 1)
 
             try:
-                self.spirit.size = self.size
+                self.spirit.size = self.spirit_width, self.spirit_height
             except AttributeError:
                 self.spirit = Rectangle(pos=self.pos, size=(self.spirit_width, self.spirit_height))
 
     def size_binder(self, *args):
-        if MINIMUM_NAVIGATION_MENU_WIDTH < Window.width * .15:
+        self.spirit_width = Window.width * .15
+        if MINIMUM_NAVIGATION_MENU_WIDTH < self.spirit_width:
             Window.unbind(size=self.size_binder)
             Window.bind(size=self.on_size)
 
@@ -103,18 +104,17 @@ class NavigationMenu(BoxLayout):
 
         self.orientation = 'vertical'
 
-        Window.bind(width=self.on_width)
+        Window.bind(size=self.on_size)
 
     def on_size(self, *args):
-        self.size[1] = Window.height * .8 - dp(60)
-
-    def on_width(self, *args):
 
         global MINIMUM_NAVIGATION_MENU_WIDTH
 
+        self.size[1] = Window.height * .8 - dp(60)
+
         if MINIMUM_NAVIGATION_MENU_WIDTH > self.width:
-            Window.unbind(width=self.on_width)
-            Window.bind(width=self.width_binder)
+            Window.unbind(size=self.on_size)
+            Window.bind(size=self.size_binder)
 
         self.width = Window.width * .15
 
@@ -127,10 +127,10 @@ class NavigationMenu(BoxLayout):
             except AttributeError:
                 self.border = Line(points=(self.width, 0, self.width, Window.height), width=2)
 
-    def width_binder(self, *args):
+    def size_binder(self, *args):
         if MINIMUM_NAVIGATION_MENU_WIDTH < Window.width * .15:
-            Window.unbind(width=self.width_binder)
-            Window.bind(width=self.on_width)
+            Window.unbind(size=self.size_binder)
+            Window.bind(size=self.on_size)
 
     def step_hide(self, dt, speed: int = 10):
         global navigation_menu_sliding_in_process
@@ -179,17 +179,25 @@ class HamburgerMenuToggleButton(BoxLayout):
                                          Window.height * .8), width=2)
 
     def on_size(self, *args):
-        self.x = Window.width * .05
-        self.y = Window.height * .75
 
-        with self.canvas:
+        with (self.canvas):
             Color(128 / 255, 128 / 255, 128 / 255, 1)
 
-            self.topline.points = self.x, Window.height * .85, Window.width * .1, Window.height * .85
-            self.midline.points = self.x, Window.height * .825, Window.width * .1, Window.height * .825
-            self.bottline.points = self.x, Window.height * .8, Window.width * .1, Window.height * .8
-            print(self.x)
+            if MINIMUM_NAVIGATION_MENU_WIDTH > Window.width * .15:
+                Window.unbind(size=self.on_size)
+                Window.bind(size=self.size_binder)
 
+            self.topline.points = (self.x + Window.width * .025, Window.height * .85, Window.width * .125,
+                                   Window.height * .85)
+            self.midline.points = (self.x + Window.width * .025, Window.height * .825, Window.width * .125,
+                                   Window.height * .825)
+            self.bottline.points = (self.x + Window.width * .025, Window.height * .8, Window.width * .125,
+                                    Window.height * .8)
+
+    def size_binder(self, *args):
+        if MINIMUM_NAVIGATION_MENU_WIDTH < Window.width * .15:
+            Window.unbind(size=self.size_binder)
+            Window.bind(size=self.on_size)
 
     def on_touch_down(self, touch):
         global navigation_menu_sliding_in_process
